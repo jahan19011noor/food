@@ -1,21 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+// In App.js in a new project
 
-export default function App() {
+import * as React from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import SearchScreen from './src/screens/SearchScreen';
+import ResultsShowScreen from './src/screens/ResultsShowScreen'
+import { navigationRef } from './src/RootNavigation';
+
+const Stack = createStackNavigator();
+// const navigator = createStackNavigator({
+//   Search: SearchScreen
+// }, {
+//   initialRouteName: 'Search',
+//   defaultNavigationOptions: {
+//     title: 'BusinessSearch'
+//   }
+// })
+function RootStack() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator
+      initialRouteName="Search"
+      screenOptions={{ gestureEnabled: false }}
+    >
+      <Stack.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{ title: 'Business Search' }}
+      />
+      <Stack.Screen
+        name="ResultsShow"
+        component={ResultsShowScreen}
+        options={{ title: 'Results Show Screen' }}
+      />
+    </Stack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// export default createAppContainer(navigator)
+export default function App() {
+  return <NavigationContainer ref={navigationRef}>{RootStack()}</NavigationContainer>;
+}
